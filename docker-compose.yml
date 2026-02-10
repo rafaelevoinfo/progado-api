@@ -27,12 +27,7 @@ services:
       - ./api:/var/www/html
     command: >
       bash -c "a2enmod rewrite &&
-      echo '<Directory /var/www/html/>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-      </Directory>' > /etc/apache2/conf-available/docker-php-overrides.conf &&
-      a2enconf docker-php-overrides &&
+      sed -i '/DocumentRoot \/var\/www\/html/a\ \n\t<Directory \/var\/www\/html>\n\t\tOptions Indexes FollowSymLinks\n\t\tAllowOverride All\n\t\tRequire all granted\n\t</Directory>' /etc/apache2/sites-available/000-default.conf &&
       apache2ctl -D FOREGROUND"
     environment:
       MYSQL_USER_PROGADO: ${MYSQL_USER_PROGADO}
