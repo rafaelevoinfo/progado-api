@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: progado_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD_ROOT}
+      MYSQL_DATABASE: progado
+      MYSQL_USER: ${MYSQL_USER_PROGADO}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_PROGADO}
+    ports:
+      - '3306:3306'
+    volumes:
+      - progado_db_data:/var/lib/mysql
+
+  app:
+    image: php:8-apache
+    container_name: progado_app
+    restart: always
+    ports:
+      - '8080:80'
+    volumes:
+      - ./api:/var/www/html
+    environment:
+      MYSQL_USER_PROGADO: ${MYSQL_USER_PROGADO}
+      MYSQL_PASSWORD_PROGADO: ${MYSQL_PASSWORD_PROGADO}
+    depends_on:
+      - db
+
+volumes:
+  progado_db_data:
