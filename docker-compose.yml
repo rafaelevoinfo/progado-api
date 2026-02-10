@@ -21,8 +21,6 @@ services:
     image: php:8-apache
     container_name: progado_app
     restart: always
-    ports:
-      - '127.0.0.1:8080:80'
     volumes:
       - ./api:/var/www/html
     environment:
@@ -32,6 +30,15 @@ services:
       - db
     networks:
       - progado_network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.progado.rule=Host(`proximoturno.com.br`) && PathPrefix(`/progado`)"
+      - "traefik.http.routers.progado.entrypoints=websecure"
+      - "traefik.http.routers.progado.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.progado-strip.stripprefix.prefixes=/progado"
+      - "traefik.http.routers.progado.middlewares=progado-strip"
+      - "traefik.http.services.progado.loadbalancer.server.port=80"
 
 volumes:
   progado_db_data:
@@ -39,3 +46,5 @@ volumes:
 networks:
   progado_network:
     driver: bridge
+  dokploy-network:
+    external: true
