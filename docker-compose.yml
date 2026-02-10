@@ -6,14 +6,14 @@ services:
     container_name: progado_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD_ROOT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: progado
-      MYSQL_USER: ${MYSQL_USER_PROGADO}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD_PROGADO}
-    ports:
-      - '3306:3306'
+      MYSQL_USER: progado
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_PROGADO}    
     volumes:
       - progado_db_data:/var/lib/mysql
+    networks:
+      - progado_network
 
   app:
     image: php:8-apache
@@ -24,10 +24,16 @@ services:
     volumes:
       - ./api:/var/www/html
     environment:
-      MYSQL_USER_PROGADO: ${MYSQL_USER_PROGADO}
+      MYSQL_USER_PROGADO: progado
       MYSQL_PASSWORD_PROGADO: ${MYSQL_PASSWORD_PROGADO}
     depends_on:
       - db
+    networks:
+      - progado_network
 
 volumes:
   progado_db_data:
+
+networks:
+  progado_network:
+    driver: bridge
