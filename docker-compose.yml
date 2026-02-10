@@ -9,7 +9,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: progado
       MYSQL_USER: progado
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD_PROGADO}    
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_PROGADO}
+    ports:
+      - "127.0.0.1:3306:3306"
     volumes:
       - progado_db_data:/var/lib/mysql
     networks:
