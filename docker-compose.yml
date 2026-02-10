@@ -21,18 +21,10 @@ services:
     image: php:8-apache
     container_name: progado_app
     restart: always
-    # ports:
-    #   - "127.0.0.1:8080:80"
+    ports:
+      - "127.0.0.1:8080:80"
     volumes:
       - ./api:/var/www/html
-    command: >
-      bash -c "a2enmod rewrite &&
-      echo '<Directory /var/www/html/>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-      </Directory>' > /etc/apache2/conf-enabled/php-custom.conf &&
-      apache2ctl -D FOREGROUND"
     environment:
       MYSQL_USER_PROGADO: ${MYSQL_USER_PROGADO}
       MYSQL_PASSWORD_PROGADO: ${MYSQL_PASSWORD_PROGADO}
