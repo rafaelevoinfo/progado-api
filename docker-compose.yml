@@ -25,6 +25,7 @@ services:
     restart: always
     volumes:
       - ./api:/var/www/html
+      - progado_app_data:/var/www/html
     environment:
       MYSQL_USER_PROGADO: ${MYSQL_USER_PROGADO}
       MYSQL_PASSWORD_PROGADO: ${MYSQL_PASSWORD_PROGADO}
@@ -52,6 +53,7 @@ services:
 
 volumes:
   progado_db_data:
+  progado_app_data:
 
 networks:
   progado_network:
