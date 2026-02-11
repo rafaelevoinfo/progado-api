@@ -148,6 +148,10 @@ class Licenca {
 		*/
 		return json_encode($this->InfoLicenca);
 	}
+
+	public function gerarRetornoInformacoesLicenca() {
+		echo $this->fpuGerarLicenca();
+	}
 }
 
 

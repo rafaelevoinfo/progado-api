@@ -10,7 +10,7 @@ class PacoteAtualizacao implements JsonSerializable
     public $ReleaseNotes;
     public $Descricao;
 
-    public function jsonSerialize()
+    public function jsonSerialize():mixed 
     {
         return $this;
     }

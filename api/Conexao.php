@@ -51,13 +51,24 @@ class Conexao {
 	}
 	
 	public function executarQuery($ipSQL) {
-		$vaResult = $this->Con->query ( $ipSQL );
-		
-		if ((isset ( $vaResult )) && ($vaResult->num_rows > 0)) {
-			return $vaResult;
-		} else {
-			return null;
+		$vaResult = $this->Con->query($ipSQL);
+
+		if ($vaResult === false) {
+			throw new Exception('Query error: ' . $this->Con->error);
 		}
+
+		// If the query returned a result set (SELECT)
+		if ($vaResult instanceof mysqli_result) {
+			if ($vaResult->num_rows > 0) {
+				return $vaResult;
+			} else {
+				$vaResult->close();
+				return null;
+			}
+		}
+
+		// For non-select queries return the boolean result
+		return $vaResult;
 	}
 	
 	public function executarInsertOrUpdate($ipSql) {
@@ -65,7 +76,9 @@ class Conexao {
 	}
 	
 	public function desconectar() {
-		$this->Con->close ();
+		if (isset($this->Con) && ($this->Con instanceof mysqli)) {
+			$this->Con->close();
+		}
 	}
 }
 

@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Editor folders
+.vscode
+.idea
+
+# Environment
+.env
+.env.*
+
+# Dependency directories
+node_modules
+vendor
+api
+
+# Logs
+*.log
+
+# Docker compose overrides
+docker-compose.override.yml
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

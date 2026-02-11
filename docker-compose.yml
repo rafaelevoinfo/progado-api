@@ -18,7 +18,9 @@ services:
       - progado_network
 
   app:
-    image: php:8-apache
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: progado_app
     restart: always
     volumes:
