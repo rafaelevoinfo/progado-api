@@ -13,7 +13,6 @@
 # Dependency directories
 node_modules
 vendor
-api
 
 # Logs
 *.log

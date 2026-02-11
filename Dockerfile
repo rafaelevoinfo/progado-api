@@ -13,6 +13,8 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+COPY api/ /var/www/html/
+
 WORKDIR /var/www/html
 
 EXPOSE 80
