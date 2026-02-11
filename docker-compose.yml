@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.progado.rule=Host(`proximoturno.com.br`) && PathPrefix(`/progado`)"
       - "traefik.http.routers.progado.entrypoints=websecure"
       - "traefik.http.routers.progado.tls=true"
-      - "traefik.http.routers.progado.tls.certresolver=myresolver"
+      - "traefik.http.routers.progado.tls.certresolver=letsencrypt"
       - "traefik.http.routers.progado.service=progado"
 
       # Middleware
