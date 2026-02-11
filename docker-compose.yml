@@ -19,8 +19,9 @@ services:
 
   app:
     build:
-      context: .
+      context: .            
       dockerfile: Dockerfile
+    image: progado_app:latest
     container_name: progado_app
     restart: always
     volumes:
