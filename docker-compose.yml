@@ -54,6 +54,15 @@ services:
       - "traefik.http.routers.progado-https.tls.certresolver=letsencrypt"
       - "traefik.http.routers.progado-https.service=progado"
 
+      # HTTPS para pro-gado.com/API (remove /API antes de encaminhar)
+      - "traefik.http.routers.progado-api-https.rule=Host(`pro-gado.com`) && PathPrefix(`/API`)"
+      - "traefik.http.routers.progado-api-https.entrypoints=websecure"
+      - "traefik.http.routers.progado-api-https.tls=true"
+      - "traefik.http.routers.progado-api-https.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.progado-api-https.middlewares=progado-api-strip"
+      - "traefik.http.routers.progado-api-https.service=progado"
+      - "traefik.http.routers.progado-api-https.priority=50"
+
       # === Dominio: proximoturno.com.br/progado ===
       
       # HTTP redirect para HTTPS
@@ -74,6 +83,9 @@ services:
       
       # Middleware para remover /progado da URL
       - "traefik.http.middlewares.progado-strip.stripprefix.prefixes=/progado"
+
+      # Middleware para remover /API da URL
+      - "traefik.http.middlewares.progado-api-strip.stripprefix.prefixes=/API"
 
       # === Service ===
       - "traefik.http.services.progado.loadbalancer.server.port=80"
