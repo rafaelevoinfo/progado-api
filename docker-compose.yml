@@ -39,7 +39,7 @@ services:
       - "traefik.http.routers.progado.entrypoints=websecure"
       - "traefik.http.routers.progado.tls=true"
       - "traefik.http.routers.progado.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.progado.service=progado"
+      - "traefik.http.routers.progado.service=progado_app"
 
       # Middleware
       - "traefik.http.middlewares.progado-strip.stripprefix.prefixes=/progado"
