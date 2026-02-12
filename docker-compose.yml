@@ -39,13 +39,17 @@ services:
 
       # === Dominio: pro-gado.com ===
       
-      # HTTP redirect para HTTPS
+      # HTTP para pro-gado.com
       - "traefik.http.routers.progado-http.rule=Host(`pro-gado.com`)"
       - "traefik.http.routers.progado-http.entrypoints=web"
-      - "traefik.http.routers.progado-http.middlewares=progado-https-redirect"
+      - "traefik.http.routers.progado-http.service=progado"
       
-      # Middleware de redirect HTTP → HTTPS
-      - "traefik.http.middlewares.progado-https-redirect.redirectscheme.scheme=https"
+      # HTTP para pro-gado.com/API (remove /API antes de encaminhar)
+      - "traefik.http.routers.progado-api-http.rule=Host(`pro-gado.com`) && PathPrefix(`/API`)"
+      - "traefik.http.routers.progado-api-http.entrypoints=web"
+      - "traefik.http.routers.progado-api-http.middlewares=progado-api-strip"
+      - "traefik.http.routers.progado-api-http.service=progado"
+      - "traefik.http.routers.progado-api-http.priority=50"
 
       # HTTPS para pro-gado.com
       - "traefik.http.routers.progado-https.rule=Host(`pro-gado.com`)"
@@ -53,6 +57,7 @@ services:
       - "traefik.http.routers.progado-https.tls=true"
       - "traefik.http.routers.progado-https.tls.certresolver=letsencrypt"
       - "traefik.http.routers.progado-https.service=progado"
+      - "traefik.http.routers.progado-https.priority=10"
 
       # HTTPS para pro-gado.com/API (remove /API antes de encaminhar)
       - "traefik.http.routers.progado-api-https.rule=Host(`pro-gado.com`) && PathPrefix(`/API`)"
