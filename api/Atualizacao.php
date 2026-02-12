@@ -203,7 +203,7 @@ class Atualizacao
         while ($vaAtualizacao = $ipAtualizacoes->fetch_assoc()) {            
             $vaPacote = new PacoteAtualizacao();
             $vaPacote->Versao = $vaAtualizacao["MAJOR"] . '.' . $vaAtualizacao["MINOR"] . '.' . $vaAtualizacao["RELEASE"] . '.' . $vaAtualizacao["BUILD"];
-            $vaPacote->Url = 'http://pro-gado.com/API/' . $ipNomeArquivo;
+            $vaPacote->Url = 'https://pro-gado.com/' . $ipNomeArquivo;
             $vaPacote->Descricao = $vaAtualizacao["DESCRICAO"];
             $vaPacote->DataRelease = $vaAtualizacao["DATA"];
 
