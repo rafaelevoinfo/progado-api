@@ -69,25 +69,7 @@ services:
       - "traefik.http.routers.progado-api-https.middlewares=progado-api-strip"
       - "traefik.http.routers.progado-api-https.service=progado"
       - "traefik.http.routers.progado-api-https.priority=50"
-
-      # === Dominio: proximoturno.com.br/progado ===
       
-      # HTTP redirect para HTTPS
-      - "traefik.http.routers.proximoturno-http.rule=Host(`proximoturno.com.br`) && PathPrefix(`/progado`)"
-      - "traefik.http.routers.proximoturno-http.entrypoints=web"
-      - "traefik.http.routers.proximoturno-http.middlewares=https-redirect"
-
-      # HTTPS para proximoturno.com.br/progado com strip prefix
-      - "traefik.http.routers.proximoturno-https.rule=Host(`proximoturno.com.br`) && PathPrefix(`/progado`)"
-      - "traefik.http.routers.proximoturno-https.entrypoints=websecure"
-      - "traefik.http.routers.proximoturno-https.tls=true"
-      - "traefik.http.routers.proximoturno-https.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.proximoturno-https.middlewares=progado-strip"
-      - "traefik.http.routers.proximoturno-https.service=progado"
-      
-      # Middleware para remover /progado da URL
-      - "traefik.http.middlewares.progado-strip.stripprefix.prefixes=/progado"
-
       # Middleware para remover /API da URL
       - "traefik.http.middlewares.progado-api-strip.stripprefix.prefixes=/API"
 
