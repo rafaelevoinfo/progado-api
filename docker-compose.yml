@@ -37,20 +37,16 @@ services:
     labels:
       - "traefik.enable=true"
 
+      # === Middleware global: HTTP → HTTPS ===
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+
       # === Dominio: pro-gado.com ===
       
       # HTTP para pro-gado.com
       - "traefik.http.routers.progado-http.rule=Host(`pro-gado.com`)"
-      - "traefik.http.routers.progado-http.entrypoints=web"
-      - "traefik.http.routers.progado-http.service=progado"
+      - "traefik.http.routers.progado-http.entrypoints=web"      
+      - "traefik.http.routers.progado-http.middlewares=https-redirect"
       
-      # HTTP para pro-gado.com/API (remove /API antes de encaminhar)
-      - "traefik.http.routers.progado-api-http.rule=Host(`pro-gado.com`) && PathPrefix(`/API`)"
-      - "traefik.http.routers.progado-api-http.entrypoints=web"
-      - "traefik.http.routers.progado-api-http.middlewares=progado-api-strip"
-      - "traefik.http.routers.progado-api-http.service=progado"
-      - "traefik.http.routers.progado-api-http.priority=50"
-
       # HTTPS para pro-gado.com
       - "traefik.http.routers.progado-https.rule=Host(`pro-gado.com`)"
       - "traefik.http.routers.progado-https.entrypoints=websecure"
@@ -58,6 +54,12 @@ services:
       - "traefik.http.routers.progado-https.tls.certresolver=letsencrypt"
       - "traefik.http.routers.progado-https.service=progado"
       - "traefik.http.routers.progado-https.priority=10"
+
+      # HTTP para pro-gado.com/API (redirect para HTTPS)
+      - "traefik.http.routers.progado-api-http.rule=Host(`pro-gado.com`) && PathPrefix(`/API`)"
+      - "traefik.http.routers.progado-api-http.entrypoints=web"
+      - "traefik.http.routers.progado-api-http.middlewares=https-redirect"
+      - "traefik.http.routers.progado-api-http.priority=50"
 
       # HTTPS para pro-gado.com/API (remove /API antes de encaminhar)
       - "traefik.http.routers.progado-api-https.rule=Host(`pro-gado.com`) && PathPrefix(`/API`)"
@@ -73,10 +75,7 @@ services:
       # HTTP redirect para HTTPS
       - "traefik.http.routers.proximoturno-http.rule=Host(`proximoturno.com.br`) && PathPrefix(`/progado`)"
       - "traefik.http.routers.proximoturno-http.entrypoints=web"
-      - "traefik.http.routers.proximoturno-http.middlewares=proximoturno-https-redirect"
-      
-      # Middleware de redirect HTTP → HTTPS
-      - "traefik.http.middlewares.proximoturno-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.proximoturno-http.middlewares=https-redirect"
 
       # HTTPS para proximoturno.com.br/progado com strip prefix
       - "traefik.http.routers.proximoturno-https.rule=Host(`proximoturno.com.br`) && PathPrefix(`/progado`)"
