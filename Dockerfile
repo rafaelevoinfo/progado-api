@@ -17,4 +17,4 @@ COPY api/ /var/www/html/
 
 WORKDIR /var/www/html
 
-EXPOSE 80
+EXPOSE 5000
